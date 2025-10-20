@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Informe Árbol de Decisión - Telecomunicaciones</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f8fc;
+      color: #333;
+    }
+    .encabezado {
+      display: flex;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #e3f2fd;
+      border-bottom: 2px solid #90caf9;
+    }
+    .encabezado img {
+      height: 60px;
+      margin-right: 20px;
+    }
+    .encabezado h1 {
+      font-size: 1.2em;
+      color: #0d47a1;
+      margin: 0;
+    }
+    .portada {
+      background-color: #0d47a1;
+      color: white;
+      padding: 60px 40px;
+      text-align: center;
+    }
+    .portada h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    .portada p {
+      font-size: 1.2em;
+      margin: 8px 0;
+    }
+    .contenido {
+      padding: 40px;
+      max-width: 900px;
+      margin: auto;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    h2 {
+      color: #0d47a1;
+      border-bottom: 2px solid #bbdefb;
+      padding-bottom: 5px;
+      margin-top: 40px;
+    }
+    h3 {
+      color: #1565c0;
+      margin-top: 20px;
+    }
+    code, pre {
+      background-color: #e3f2fd;
+      padding: 10px;
+      display: block;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    ul {
+      padding-left: 20px;
+      margin: 10px 0 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Encabezado con isologo -->
+  <div class="encabezado">
+    <img src="../logo.png" alt="Logo Instituto Tecnológico Beltrán">
+    <!--<h1>INSTITUTO TECNOLÓGICO BELTRÁN – Centro de Tecnología e Innovación</h1>-->
+  </div>
+
+  <!-- Portada -->
+  <div class="portada">
+    <h1>TRABAJO PRÁCTICO: Árbol de Decisión - Empresa de Telecomunicaciones</h1>
+    <p><strong>Materia:</strong> Procesamiento de Aprendizaje Automático</p>
+    <p><strong>Docente:</strong> Scudero, Yanina Ximena</p>
+    <p><strong>Alumno:</strong> Lucas Nahuel Oviedo</p>
+    <p><strong>Carrera:</strong> Tecnicatura Superior en Ciencia de Datos e Inteligencia Artificial</p>
+    <p><strong>Institución:</strong> INSTITUTO SUPERIOR DE FORMACIÓN TÉCNICA N° 197</p>
+    <p><strong>Año:</strong> 2025</p>
+  </div>
+
+  <!-- Contenido -->
+  <div class="contenido">
+    <h2>1. Introducción</h2>
+    <p>En este trabajo práctico se implementa un algoritmo de árbol de decisión desde cero para predecir si un cliente de una empresa de telecomunicaciones aceptará una oferta de plan de datos móviles. El análisis se basa en un conjunto de datos de 10 clientes y utiliza conceptos fundamentales de aprendizaje automático como entropía y ganancia de información.</p>
+
+    <h2>2. Descripción del Problema</h2>
+    <p>El objetivo es clasificar a los clientes en dos categorías: "Aceptó la oferta" o "No aceptó la oferta" de plan de datos móviles, basándose en atributos como edad, uso mensual de datos y posesión de línea fija.</p>
+
+    <h3>2.1 Conjunto de Datos</h3>
+    <p>El dataset consta de 10 registros de clientes con los siguientes atributos:</p>
+    <ul>
+      <li><strong>ID</strong>: Identificador único del cliente</li>
+      <li><strong>Edad</strong>: Edad en años</li>
+      <li><strong>Uso de datos</strong>: Uso mensual de datos en GB</li>
+      <li><strong>Tiene línea fija</strong>: Sí/No</li>
+      <li><strong>Aceptó oferta</strong>: Sí/No (variable objetivo)</li>
+    </ul>
+
+    <h3>2.2 Datos de Ejemplo</h3>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Edad</th>
+        <th>Uso de datos</th>
+        <th>Tiene línea fija</th>
+        <th>Aceptó oferta</th>
+      </tr>
+      <tr><td>1</td><td>24</td><td>2.5</td><td>No</td><td>No</td></tr>
+      <tr><td>2</td><td>38</td><td>6.0</td><td>Sí</td><td>Sí</td></tr>
+      <tr><td>3</td><td>29</td><td>3.0</td><td>No</td><td>No</td></tr>
+      <tr><td>4</td><td>45</td><td>8.0</td><td>Sí</td><td>Sí</td></tr>
+      <tr><td>5</td><td>52</td><td>7.5</td><td>Sí</td><td>Sí</td></tr>
+      <tr><td>6</td><td>33</td><td>4.0</td><td>No</td><td>No</td></tr>
+      <tr><td>7</td><td>41</td><td>5.5</td><td>Sí</td><td>Sí</td></tr>
+      <tr><td>8</td><td>27</td><td>2.0</td><td>No</td><td>No</td></tr>
+      <tr><td>9</td><td>36</td><td>6.5</td><td>Sí</td><td>Sí</td></tr>
+      <tr><td>10</td><td>31</td><td>3.5</td><td>No</td><td>No</td></tr>
+    </table>
+
+    <h2>3. Metodología</h2>
+    <h3>3.1 Cálculo de Entropía</h3>
+    <p>La entropía del conjunto original se calcula usando la fórmula:</p>
+    <pre><code>H(S) = -∑(p_i * log₂(p_i))</code></pre>
+    <p>Donde p_i es la proporción de cada clase (aceptó/no aceptó).</p>
+
+    <h3>3.2 Evaluación de Atributos</h3>
+    <p>Para cada atributo, se calculan subconjuntos y la entropía ponderada:</p>
+    <pre><code>H_división = ∑((|S_v| / |S|) * H(S_v))</code></pre>
+    <p>Donde S_v representa cada subconjunto creado por el atributo.</p>
+
+    <h3>3.3 Ganancia de Información</h3>
+    <p>La ganancia de información se calcula como:</p>
+    <pre><code>Ganancia = H(S) - H_división</code></pre>
+    <p>El atributo con mayor ganancia se selecciona como raíz del árbol.</p>
+
+    <h2>4. Implementación</h2>
+    <h3>4.1 Bibliotecas Utilizadas</h3>
+    <pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+import math</code></pre>
+
+    <h3>4.2 Carga y Preprocesamiento de Datos</h3>
+    <p>Los datos se cargan desde una lista de diccionarios y se convierten a un DataFrame de pandas para facilitar el análisis.</p>
+
+    <h3>4.3 Cálculo de Entropía del Conjunto Original</h3>
+    <p>Con 5 clientes que aceptaron y 5 que no aceptaron la oferta:</p>
+    <pre><code>total = 10
+aceptaron_oferta = 5
+no_aceptaron = 5
+
+p_si = aceptaron_oferta / total
+p_no = no_aceptaron / total
+
+entropy_original = - (p_si * math.log2(p_si) + p_no * math.log2(p_no))
+print(f"Entropía del conjunto original: {entropy_original:.3f}")</code></pre>
+    <p><strong>Resultado:</strong> Entropía del conjunto original: 1.000</p>
+
+    <h3>4.4 Evaluación de Atributos</h3>
+    <h4>4.4.1 Atributo: Edad</h4>
+    <p>Se divide en rangos: Joven (≤30), Adulto (31-50), Mayor (>50)</p>
+    <ul>
+      <li>Joven: 3 no aceptaron, 0 aceptaron → Entropía = 0.0</li>
+      <li>Adulto: 2 no aceptaron, 4 aceptaron → Entropía = 0.918</li>
+      <li>Mayor: 0 no aceptaron, 1 aceptó → Entropía = 0.0</li>
+    </ul>
+    <p><strong>Entropía ponderada:</strong> 0.551</p>
+    <p><strong>Ganancia de información:</strong> 1.000 - 0.551 = 0.449</p>
+
+    <h4>4.4.2 Atributo: Tiene Línea Fija</h4>
+    <ul>
+      <li>Sí: 0 no aceptaron, 5 aceptaron → Entropía = 0.0</li>
+      <li>No: 5 no aceptaron, 0 aceptaron → Entropía = 0.0</li>
+    </ul>
+    <p><strong>Entropía ponderada:</strong> 0.0</p>
+    <p><strong>Ganancia de información:</strong> 1.000 - 0.0 = 1.0</p>
+
+    <h4>4.4.3 Atributo: Uso de Datos</h4>
+    <p>Se divide en rangos: Bajo (≤3GB), Medio (3.1-6GB), Alto (>6GB)</p>
+    <ul>
+      <li>Bajo: 3 no aceptaron, 0 aceptaron → Entropía = 0.0</li>
+      <li>Medio: 2 no aceptaron, 2 aceptaron → Entropía = 1.0</li>
+      <li>Alto: 0 no aceptaron, 3 aceptaron → Entropía = 0.0</li>
+    </ul>
+    <p><strong>Entropía ponderada:</strong> 0.4</p>
+    <p><strong>Ganancia de información:</strong> 1.000 - 0.4 = 0.6</p>
+
+    <h2>5. Resultados</h2>
+    <h3>5.1 Análisis de Ganancia de Información</h3>
+    <table>
+      <tr>
+        <th>Atributo</th>
+        <th>Ganancia de Información</th>
+      </tr>
+      <tr><td>Tiene línea fija</td><td>1.0</td></tr>
+      <tr><td>Uso de datos</td><td>0.6</td></tr>
+      <tr><td>Edad</td><td>0.449</td></tr>
+    </table>
+
+    <h3>5.2 Construcción del Árbol de Decisión</h3>
+    <p>El atributo "Tiene línea fija" proporciona la máxima ganancia (1.0), creando dos subconjuntos puros:</p>
+    <pre><code>¿Tiene línea fija?
+├── Sí → Aceptó la oferta
+└── No → No aceptó la oferta</code></pre>
+
+    <h3>5.3 Métricas de Rendimiento</h3>
+    <ul>
+      <li><strong>Precisión:</strong> 100% (10/10 casos clasificados correctamente)</li>
+      <li><strong>Complejidad:</strong> Mínima (solo 1 atributo necesario)</li>
+      <li><strong>Interpretabilidad:</strong> Muy alta</li>
+    </ul>
+
+    <h2>6. Conclusiones</h2>
+    <p>Este trabajo práctico demuestra la implementación desde cero de un árbol de decisión para un problema de clasificación binaria. El atributo "Tiene línea fija" resultó ser el predictor perfecto, logrando una separación completa de las clases con ganancia de información máxima (1.0).</p>
+
+    <p>Los resultados muestran un caso ideal donde un solo atributo es suficiente para clasificar perfectamente todos los ejemplos del conjunto de datos. Este enfoque manual permite comprender los fundamentos del algoritmo de árboles de decisión antes de utilizar implementaciones automatizadas.</p>
+
+    <p>La metodología aplicada incluye:</p>
+    <ul>
+      <li>Cálculo de entropía del conjunto original</li>
+      <li>Evaluación sistemática de cada atributo candidato</li>
+      <li>Cálculo de ganancia de información</li>
+      <li>Selección del mejor atributo para la raíz del árbol</li>
+      <li>Construcción de un árbol de decisión simple pero efectivo</li>
+    </ul>
+
+    <p>Este ejemplo ilustra cómo los conceptos teóricos de teoría de la información se aplican en la práctica para resolver problemas de clasificación en el ámbito de los negocios y las telecomunicaciones.</p>
+  </div>
+
+</body>
+</html>
